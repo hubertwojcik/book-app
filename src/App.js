@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import styled from "styled-components";
+
+import Navigation from "./components/Navigation/Navigation";
+import Goal from "./components/Goal/Goal";
+import BookList from "./components/BookList/BookList";
+import BookForm from "./components/BookForm/BookForm";
+import Statistics from "./components/Statistics/Statistics";
+import GlobalStyles from "./index.css";
+
+const Container = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 80%;
+	min-height: 700px;
+	margin-bottom: 10vh;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: white;
+	border-radius: 20px;
+`;
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<>
+			<GlobalStyles />
+			<Router>
+				<Navigation />
+				<Container>
+					<Switch>
+						<Route exact path="/">
+							<Goal />
+						</Route>
+						<Route exact path="/add">
+							<BookForm />
+						</Route>
+						<Route path="/list" component={BookList} />
+						<Route path="/statistics" component={Statistics}></Route>
+
+						<Route path="/signin">SIGN IN</Route>
+					</Switch>
+				</Container>
+			</Router>
+		</>
+	);
 }
 
 export default App;
