@@ -8,11 +8,13 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import bookReducer from "./store/reducers/bookReducer";
+import goalReducer from "./store/reducers/goalReducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
 	books: bookReducer,
+	goal: goalReducer,
 });
 
 const store = createStore(
