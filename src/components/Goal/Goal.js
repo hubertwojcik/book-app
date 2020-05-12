@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
 	Container,
 	Title,
@@ -8,11 +9,12 @@ import {
 	GoalValue,
 } from "./Goal.css";
 import { Button } from "../BookForm/BookForm.css";
+import { setGoal } from "../../store/actions/goalActions";
 
 const Goal = () => {
-	const [readGoal, setReadGoal] = React.useState(0);
+	const currGoal = useSelector((state) => state.goal.booksGoal);
+	const dispatch = useDispatch();
 
-	const handleOnChange = (e) => setReadGoal(e.target.value);
 	return (
 		<Container>
 			<Title>Set your goal!</Title>
@@ -23,11 +25,11 @@ const Goal = () => {
 						type="range"
 						min={0}
 						max={200}
-						value={readGoal}
-						onChange={handleOnChange}
+						value={currGoal}
+						onChange={(e) => dispatch(setGoal(e.target.value))}
 						className="slider"
 					/>
-					<GoalValue>{readGoal}</GoalValue>
+					<GoalValue>{currGoal}</GoalValue>
 				</GoalContainer>
 				<Button>Set Goal!</Button>
 			</GoalContent>
