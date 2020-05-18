@@ -16,7 +16,9 @@ const BookItem = ({
 	numOfPages,
 	startDate,
 	endDate,
+	currentPage,
 	daysToFinish,
+	finished,
 }) => {
 	return (
 		<ItemContainer>
@@ -25,8 +27,17 @@ const BookItem = ({
 			<ItemIsbn>ISBN: {isbn}</ItemIsbn>
 			<ItemNumOfPages>Pages: {numOfPages}</ItemNumOfPages>
 			<ItemStart>Star date : {startDate}</ItemStart>
-			<ItemEnd>End date: {endDate}</ItemEnd>
-			<ItemDays>Days to finish: {daysToFinish}</ItemDays>
+			{finished ? (
+				<>
+					<ItemEnd>End date: {endDate}</ItemEnd>
+					<ItemDays>Days to finish: {daysToFinish}</ItemDays>
+				</>
+			) : (
+				<>
+					<div>{currentPage}</div>
+					<div>Estimated ending: </div>
+				</>
+			)}
 		</ItemContainer>
 	);
 };
