@@ -1,10 +1,10 @@
 import * as actionTypes from "../actions/bookActions";
-import Book from "../../models/book";
+import { FinishedBook, CurrentBook } from "../../models/book";
 import moment from "moment";
 
 const initialState = {
-	books: [],
-	favoriteBooks: [],
+	finishedBooks: [],
+	currBooks: [],
 	totalPages: 0,
 	numOfPagesOfBooks: [],
 	titleOfBooks: [],
@@ -12,8 +12,8 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
-		case actionTypes.ADD_BOOK:
-			const newBook = new Book(
+		case actionTypes.ADD_FINISHED_BOOK:
+			const newBook = new FinishedBook(
 				action.payload.author,
 				action.payload.title,
 				action.payload.isbn,
@@ -22,16 +22,27 @@ const reducer = (state = initialState, action) => {
 				action.payload.end
 			);
 			newBook.daysToFinish = newBook.numberOfDays();
-			const bookTitle = action.payload.title;
-			const bookPages = parseInt(action.payload.numOfPages);
+			// const bookTitle = action.payload.title;
+			// const bookPages = parseInt(action.payload.numOfPages);
 			return {
 				...state,
-				books: state.books.concat(newBook),
+				finishedBooks: state.finishedBooks.concat(newBook),
 				totalPages: state.totalPages + parseInt(action.payload.numOfPages),
-				numOfPagesOfBooks: state.numOfPagesOfBooks.concat(bookPages),
-				titleOfBooks: state.titleOfBooks.concat(bookTitle),
 			};
 
+		case actionTypes.ADD_CURRENT_BOOK:
+			const currBook = new CurrentBook(
+				action.payload.author,
+				action.payload.title,
+				action.payload.isbn,
+				action.payload.numOfPages,
+				action.payload.start,
+				action.payload.currentPage
+			);
+			return {
+				...state,
+				currBooks: state.currBooks.concat(currBook),
+			};
 		default:
 			break;
 	}
