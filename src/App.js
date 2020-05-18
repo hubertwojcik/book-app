@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Navigation from "./components/Navigation/Navigation";
 import Goal from "./components/Goal/Goal";
 import BookList from "./components/BookList/BookList";
+import Search from "./components/Search/Search";
 import BookForm from "./components/BookForm/BookForm";
 import Statistics from "./components/Statistics/Statistics";
 import GlobalStyles from "./index.css";
@@ -30,6 +31,9 @@ function App() {
 				<Navigation />
 				<Container>
 					<Switch>
+						<Route path="/search">
+							<Search />
+						</Route>
 						<Route exact path="/">
 							<Goal />
 						</Route>
