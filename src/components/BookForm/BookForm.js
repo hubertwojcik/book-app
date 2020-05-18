@@ -1,22 +1,28 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { addBook } from "../../store/actions/bookActions";
-import { Form, Input, Button, Label } from "./BookForm.css";
+import {
+	addFinishedBook,
+	addCurrentBook,
+} from "../../store/actions/bookActions";
+import ToggleSwitch from "../UI/ToggleSwitch/ToggleSwitch";
+import { Form, Input, Button, Label, StatusContainer } from "./BookForm.css";
 
-const BookForm = () => {
-	const [authorOfBook, setAuthorOfBook] = React.useState("");
-	const [titleOfBook, setTitleOfBook] = React.useState("");
-	const [isbnCode, setIsbnCode] = React.useState("");
-	const [numberOfPages, setNumberOfPages] = React.useState(0);
+const BookForm = ({ author = "", title = "", isbn = "", pages = 0 }) => {
+	const [authorOfBook, setAuthorOfBook] = React.useState(author);
+	const [titleOfBook, setTitleOfBook] = React.useState(title);
+	const [isbnCode, setIsbnCode] = React.useState(isbn);
+	const [numberOfPages, setNumberOfPages] = React.useState(pages);
 	const [startDate, setStartDate] = React.useState("");
 	const [endDate, setEndDate] = React.useState("");
+	const [currReading, setCurrReading] = React.useState(false);
+	const [currPage, setCurrPage] = React.useState(0);
 
 	const dispatch = useDispatch();
 
-	const handleAddBook = (e) => {
+	const handleAddFinishedBook = (e) => {
 		e.preventDefault();
 		return dispatch(
-			addBook({
+			addFinishedBook({
 				author: authorOfBook,
 				title: titleOfBook,
 				isbn: isbnCode,
@@ -27,8 +33,24 @@ const BookForm = () => {
 		);
 	};
 
+	const handleCurrentReadingBook = (e) => {
+		e.preventDefault();
+		return dispatch(
+			addCurrentBook({
+				author: authorOfBook,
+				title: titleOfBook,
+				isbn: isbnCode,
+				numOfPages: numberOfPages,
+				start: startDate,
+				currentPage: currPage,
+			})
+		);
+	};
+
 	return (
-		<Form onSubmit={handleAddBook}>
+		<Form
+			onSubmit={currReading ? handleCurrentReadingBook : handleAddFinishedBook}
+		>
 			<Label htmlFor="author">Author</Label>
 			<Input
 				type="text"
@@ -64,6 +86,13 @@ const BookForm = () => {
 				name="number"
 				placeholder="Number of Pages"
 			/>
+			<StatusContainer>
+				I am currently reading
+				<ToggleSwitch
+					finished={currReading}
+					onChange={(e) => setCurrReading(e.target.checked)}
+				/>
+			</StatusContainer>
 			<Label htmlFor="startDate">Start date</Label>
 
 			<Input
@@ -72,14 +101,27 @@ const BookForm = () => {
 				value={startDate}
 				onChange={(e) => setStartDate(e.target.value)}
 			/>
-			<Label htmlFor="endDate">End date</Label>
-
-			<Input
-				type="date"
-				name="endDate"
-				value={endDate}
-				onChange={(e) => setEndDate(e.target.value)}
-			/>
+			{currReading ? (
+				<>
+					<Label htmlFor="endDate">Current page</Label>
+					<Input
+						type="number"
+						name="currPage"
+						value={currPage}
+						onChange={(e) => setCurrPage(e.target.value)}
+					/>
+				</>
+			) : (
+				<>
+					<Label htmlFor="endDate">End date</Label>
+					<Input
+						type="date"
+						name="endDate"
+						value={endDate}
+						onChange={(e) => setEndDate(e.target.value)}
+					/>
+				</>
+			)}
 			<Button type="submit">Submit</Button>
 		</Form>
 	);
