@@ -24,7 +24,7 @@ const Goal = () => {
 					<input
 						type="range"
 						min={0}
-						max={200}
+						max={50}
 						value={currGoal}
 						onChange={(e) => dispatch(setGoal(e.target.value))}
 						className="slider"
