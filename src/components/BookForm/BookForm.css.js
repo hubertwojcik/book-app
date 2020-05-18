@@ -6,6 +6,13 @@ export const Form = styled.form`
 	flex-direction: column;
 	align-items: center;
 `;
+export const StatusContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+	padding: 25px;
+	width: 100%;
+`;
+
 export const Label = styled.label`
 	font-size: 16px;
 `;
